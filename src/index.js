@@ -9,7 +9,8 @@ const Button=(props)=>{
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
-  const [points,setPoints]= useState({0: 1, 1: 3, 2: 4, 3: 2, 4: 0})
+  const [index,setIndex]=useState(2);
+  const [points,setPoints]= useState([1,3,4,2,0,0])
   
   const calcRandom=()=>{
         const xx=Math.floor(Math.random() * (anecdotes.length-1)) + 1;
@@ -17,17 +18,27 @@ const App = (props) => {
   }
 
   const setVote=(selected)=>{
-    const copy = { ...points }
+    const copy = [ ...points ]
     copy[selected] += 1
     setPoints(copy)
+
+    let result = Math.max.apply(null, copy);
+    setIndex(copy.indexOf(result))
+    console.log(copy)
   }
+
+  
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <Button handleClick={()=>{setVote(selected)}} text={"Vote"} />
       <Button handleClick={calcRandom} text={"Next Anecdote"} />
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[index]}</p>
+      <p>has {points[index]} votes</p>
     </div>
   );
 };
