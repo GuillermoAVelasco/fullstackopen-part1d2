@@ -9,22 +9,30 @@ const Button=(props)=>{
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
-
+  const [points,setPoints]= useState({0: 1, 1: 3, 2: 4, 3: 2, 4: 0})
+  
   const calcRandom=()=>{
         const xx=Math.floor(Math.random() * (anecdotes.length-1)) + 1;
-        console.log(xx);
         setSelected(xx);
-    }
+  }
 
+  const setVote=(selected)=>{
+    const copy = { ...points }
+    copy[selected] += 1
+    setPoints(copy)
+  }
 
   return (
     <div>
-      {props.anecdotes[selected]}
+      <p>{props.anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <Button handleClick={()=>{setVote(selected)}} text={"Vote"} />
       <Button handleClick={calcRandom} text={"Next Anecdote"} />
     </div>
   );
 };
 
+//const points = { 0: 1, 1: 3, 2: 4, 3: 2, 4: 0 }
 const anecdotes = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
